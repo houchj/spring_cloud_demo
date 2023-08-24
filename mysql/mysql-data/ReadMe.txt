@@ -1,1 +1,0 @@
-the MySQL data folder
