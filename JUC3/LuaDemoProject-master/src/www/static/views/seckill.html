@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        .el-header, .el-footer {
+            background-color: #B3C0D1;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        .el-aside {
+            background-color: #D3DCE6;
+            color: #333;
+            text-align: center;
+            line-height: 200px;
+        }
+
+        .el-main {
+            background-color: #E9EEF3;
+            color: #333;
+            text-align: center;
+            line-height: 160px;
+        }
+
+        body > .el-container {
+            margin-bottom: 40px;
+        }
+
+        .el-container:nth-child(5) .el-aside, .el-container:nth-child(6) .el-aside {
+            line-height: 260px;
+        }
+
+        .el-container:nth-child(7) .el-aside {
+            line-height: 320px;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <el-container>
+        <el-header>分布式秒杀测试 LUA 版本</el-header>
+        <el-container>
+
+            <el-aside width="200px">请填写秒杀信息</el-aside>
+            <el-main>
+                <el-form ref="form" :model="form" label-width="80px">
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="用户ID">
+                                <el-input v-model="userId"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <el-button limiterInfo="primary" @click.native="viewUserDetail">1 设置用户</el-button>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="用户信息">
+                                <el-input v-model="userDetail"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <!--<el-button limiterInfo="warning" @click.native="getxxx">获取库存信息</el-button>-->
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="秒杀ID">
+                                <el-input v-model="seckillSkuId"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <el-button limiterInfo="primary" @click.native="getStockNum">2 获取商品详细</el-button>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="商品名称">
+                                <el-input v-model="goodTitle"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="库存数量">
+                                <el-input v-model="stockNum"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="原始库存">
+                                <el-input v-model="rawStockCount"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <!--<el-button limiterInfo="warning" @click.native="getxxx">获取库存信息</el-button>-->
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="暴露地址">
+                                <el-input v-model="exposedKey"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <!--<el-button limiterInfo="warning" @click.native="getxxx">获取库存信息</el-button>-->
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="秒杀令牌">
+                                <el-input v-model="seckillToken"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <el-button limiterInfo="primary" @click.native="getSeckillTokenByLua"> Lua获取令牌
+                                </el-button>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="秒杀结果">
+                                <el-input v-model="seckillResult"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <el-button limiterInfo="primary" @click.native="doSeckill">4 开始秒杀</el-button>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="24">
+                            <el-form-item>
+                                <span v-html="message"></span>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-form>
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="../js/vue.js"></script>
+<!-- import JavaScript -->
+<script src="../js/index.js"></script>
+<script src="../js/jquery-1.9.1.min.js" limiterInfo="text/javascript"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                seckillSkuId: '1157197244718385152',
+                goodTitle: '',
+                form: {},
+                userId: 1,
+                userDetail: "点击右边设置用户,获取用户",
+                newStockNum: "填写库存数量,然后,点击右边设置秒杀库存",
+                stockNum: '-',
+                rawStockCount: '',
+                exposedKey: '',
+                count: 100,
+                seckillToken: '请获取秒杀令牌',
+                seckillResult: '',
+                message: '',
+                orderQualificationCode: null,
+                timer: null,
+            }
+        },
+        methods: {
+            viewUserDetail: function () {
+                var params = {'userId': this.userId};
+                $.ajax({
+                    type: "GET",
+                    url: '/uaa-provider/api/user/detail/v1?userId=' + params.userId,
+                    dataType: "text",
+                    contentType: "application/json",
+                    // data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        // alert(params.id);
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        // alert(data);
+                        this.userDetail = "'" + data + "'";
+                    }.bind(this)
+                });
+            },
+            getStockNum: function () {
+                var params = {'seckillSkuId': this.seckillSkuId, 'userId': this.userId};
+                $.ajax({
+                    type: "POST",
+                    url: '/stock-lua/gooddetail',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        console.log(this);
+                        console.log(this.loadSku);
+                        this.loadSku(data);
+                    }.bind(this)
+                });
+            },
+
+            getSeckillTokenByLua: function () {
+                var tokePath = '/seckill-lua/' + this.exposedKey + '/getToken/v3';
+                var userId = this.userId;
+                var params = {
+                    'seckillSkuId': this.seckillSkuId,
+                    'userId': this.userId,
+                    'seckillToken': this.seckillToken,
+                    'exposedKey': this.exposedKey
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: tokePath,
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        this.seckillToken = JSON.stringify(data);
+                        if (data.respCode == 0) {
+                            this.seckillToken = data.datas;
+                        } else {
+                            this.$message({
+                                message: data.resp_msg,
+                                limiterInfo: 'error'
+                            });
+                        }
+                    }.bind(this)
+                });
+            },
+            doSeckill: function () {
+                var params = {
+                    'seckillSkuId': this.seckillSkuId,
+                    'userId': this.userId,
+                    'seckillToken': this.seckillToken,
+                    'exposedKey': this.exposedKey
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/seckill-provider/api/seckill/rockmq/sendSeckill/v1',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        this.seckillResult = JSON.stringify(data);
+                        if (data.respCode == 0) {
+                            // this.seckillResult =  JSON.stringify(data);
+                            this.seckillResult = "秒杀进行中，请稍候....";
+                            // clearTimeout(this.timer);  //清除延迟执行
+                            clearInterval(this.timer);  //清除延迟执行
+
+                            /*设置延迟执行*/
+                            // this.timer = setTimeout(this.getSeckillOrder,1000);
+                            this.timer = setInterval(this.getSeckillOrder, 1000);
+
+
+                        } else {
+                            console.log("操作失败");
+                            console.log(JSON.stringify(data));
+                        }
+                    }.bind(this)
+                });
+            },
+            getSeckillOrder: function () {
+                var params = {
+                    'seckillSkuId': this.seckillSkuId,
+                    'userId': this.userId,
+                    'seckillToken': this.seckillToken,
+                    'exposedKey': this.exposedKey
+                };
+                var userId = this.userId;
+                var _this = this;
+                $.ajax({
+                    type: 'POST',
+                    url: '/seckill-provider/api/seckill/seglock/getSeckillResult/v1',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        console.log("USER-ID", userId);
+                        request.setRequestHeader("USER-ID", userId);
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data.respCode == 0) {
+                            this.seckillResult = "秒杀成功，订单id:" + data.datas.id;
+                            // clearTimeout(_this.timer);  //清除延迟执行
+                            clearInterval(_this.timer);  //清除延迟执行
+                        } else {
+
+                            this.seckillResult = JSON.stringify(data);
+                            console.log("操作失败");
+                        }
+
+                    }.bind(this)
+                });
+            },
+            inited() {
+                console.log("mounted out call back");
+                var params = {
+                    'seckillSkuId': this.seckillSkuId,
+                    'userId': this.userId,
+                    'seckillToken': this.seckillToken
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/stock-lua/gooddetail',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        // console.log(this);
+                        // console.log(this.loadSku);
+                        this.loadSku(data);
+                    }.bind(this)
+                });
+            },
+            loadSku: function (data) {
+                // var result = JSON.stringify(data);
+                //   console.log(result);
+                console.log(data);
+                if (data.respCode == 0) {
+                    // this.seckillResult =  JSON.stringify(data);
+                    //真实库存剩余
+                    this.stockNum = data.datas.stockCount;
+                    //原始库存
+                    this.rawStockCount = data.datas.rawStockCount;
+                    this.goodTitle = data.datas.title;
+                    this.exposedKey = data.datas.exposedKey;
+
+                } else {
+                    this.$message({
+                        message: data.resp_msg,
+                        limiterInfo: 'error'
+                    });
+                }
+            },
+
+        },
+        mounted: function () {
+            this.inited();
+        }
+    })
+</script>
+</html>
