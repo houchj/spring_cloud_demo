@@ -22,19 +22,6 @@ spring:
       preferred-networks: ${SCAFFOLD_PREFERRED_NETWORKS:192.168.68.}
       prefer-ip-address: true  #访问路径可以显示IP地址
 
-eureka:
-  instance:
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
-    ip-address: ${spring.cloud.client.ip-address}
-    prefer-ip-address: true  #访问路径可以显示IP地址
-    status-page-url-path: /${management.endpoints.web.base-path}/info #定义实例信息的页面地址
-    health-check-url-path: /${management.endpoints.web.base-path}/health #定义健康检查的页面地
-  client:
-    egister-with-eureka: true #注册到eureka服务器
-    fetch-registry: true  #要不要去注册中心获取其他服务
-    serviceUrl:
-      defaultZone: ${SCAFFOLD_EUREKA_ZONE_HOSTS:http://localhost:7777/eureka/}
-
 ribbon:
   eager-load:
     enabled: true # 开启Ribbon的饥饿加载模式，启动时创建 RibbonClient

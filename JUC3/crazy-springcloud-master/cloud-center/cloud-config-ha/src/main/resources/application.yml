@@ -1,3 +1,6 @@
+server:
+  port: ${server.port}  #配置中心端口
+
 spring:
   application:
     name: config-server   # 服务名称
@@ -10,10 +13,20 @@ spring:
           searchLocations: classpath:config/  #申明本地配置文件的存放位置
 
 
+
 eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    ip-address: ${spring.cloud.client.ip-address}
+    prefer-ip-address: true  #访问路径可以显示IP地址
+    status-page-url-path: /${management.endpoints.web.base-path}/info #定义实例信息的页面地址
+    health-check-url-path: /${management.endpoints.web.base-path}/health #定义健康检查的页面地
+    lease-renewal-interval-in-seconds: 5  # 续租(心跳)频率，Client 发送心跳给 Eureka 的时间间隔，默认 30 秒
+    lease-expiration-duration-in-seconds: 15  #  租约有效期，在该时间内若client未更新租约，将剔除client，默认 90 秒
   client:
     healthcheck:
       enabled: true   #开启客户端健康检查
-  instance:
-    lease-renewal-interval-in-seconds: 5  # 续租(心跳)频率，Client 发送心跳给 Eureka 的时间间隔，默认 30 秒
-    lease-expiration-duration-in-seconds: 15  #  租约有效期，在该时间内若client未更新租约，将剔除client，默认 90 秒
+    egister-with-eureka: true #注册到eureka服务器
+    fetch-registry: true  #要不要去注册中心获取其他服务
+    serviceUrl:
+      defaultZone: http://${eureka.host}:${eureka.port}/eureka/
