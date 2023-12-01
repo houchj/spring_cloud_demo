@@ -46,6 +46,7 @@
     <modules>
         <!--注册中心-->
         <module>cloud-eureka</module>
+        <module>eureka-ha</module>
         <!--配置中心-->
         <module>cloud-config</module>
         <!--网关-->
