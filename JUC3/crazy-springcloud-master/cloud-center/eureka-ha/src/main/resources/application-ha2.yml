@@ -1,15 +1,13 @@
 server:
   port: 7778
-spring:
-  application:
-    name: eureka-server
-  cloud:
-    inetutils:
-      timeout-seconds: 10
-      preferred-networks: ${SCAFFOLD_PREFERRED_NETWORKS:192.168.68.}
-      prefer-ip-address: true  #访问路径可以显示IP地址
 
 eureka:
+  instance:
+    hostname: eureka-ha2
+    metadataMap.zone: zone-2
   client:
+    region: Shanghai
+    availabilityZones:
+      Shanghai: zone-1, zone-2
     service-url:
-      defaultZone: http://localhost:7777/eureka/   # 服务注册中心的配置内容，指定服务注册中心的位置
+      defaultZone: http://eureka-ha1:7777/eureka/   # 服务注册中心的配置内容，指定服务注册中心的位置

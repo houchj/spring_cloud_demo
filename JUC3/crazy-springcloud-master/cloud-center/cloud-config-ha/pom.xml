@@ -10,29 +10,33 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.crazymaker.springcloud</groupId>
-    <artifactId>eureka-ha</artifactId>
+    <artifactId>config-ha</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>eureka-ha</name>
+    <name>cloud-config</name>
     <packaging>jar</packaging>
 
 
     <dependencies>
+        <!--配置中心-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+        </dependency>
+
+        <!--断路器-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
+        <!--eureka-client-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
@@ -40,16 +44,14 @@
             <version>3.1.0</version>
         </dependency>
 
-
     </dependencies>
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.crazymaker.springcloud.cloud.center.eureka.EurekaServerApplication</mainClass>
+                    <mainClass>com.crazymaker.cloud.center.config.ConfigServerApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -59,7 +61,6 @@
                     </execution>
                 </executions>
             </plugin>
-
 
 
             <plugin>
@@ -80,6 +81,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>3.1.0</version>
@@ -87,8 +89,8 @@
                     <execution>
                         <phase>install</phase>
                         <configuration>
-                            <property name="dest" value="D:\bin\eureka-ha"/>
-                            <property name="file" value="eureka-ha-1.0-SNAPSHOT-Alpha.tar.gz"/>
+                            <property name="dest" value="D:\bin\config-ha"/>
+                            <property name="file" value="config-ha-1.0-SNAPSHOT-Alpha.tar.gz"/>
                             <target>
                                 <ant antfile="deploy.xml">
                                     <target name="install"/>
@@ -101,6 +103,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- 添加docker-maven插件 -->
 
             <plugin>

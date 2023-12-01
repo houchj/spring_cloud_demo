@@ -1,0 +1,18 @@
+<project name="eureka-ha-test" default="install" basedir=".">
+    <property name="dest" value="D:\bin\config-ha"/>
+    <property name="file" value="config-ha-1.0-SNAPSHOT-Alpha.tar.gz"/>
+    <target name="clean">
+        <delete dir="${dest}"/>
+    </target>
+    <target name="install" depends="clean">
+        <copy todir="${dest}">
+            <fileset file="./target/${file}"/>
+        </copy>
+        <gunzip src="${dest}/${file}" dest="${dest}/config.tar/"/>
+
+        <untar src="${dest}/config.tar" dest="${dest}/ha1/"/>
+        <untar src="${dest}/config.tar" dest="${dest}/ha2/"/>
+    </target>
+    <description>Project Description</description>
+
+</project>
