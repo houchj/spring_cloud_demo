@@ -53,6 +53,8 @@
         <module>cloud-zuul</module>
         <!--链路监测中心-->
         <module>cloud-zipkin</module>
+
+        <module>hystrix-test</module>
     </modules>
 
     <build>
