@@ -15,7 +15,6 @@
     <name>eureka-ha</name>
     <packaging>jar</packaging>
 
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -42,8 +41,49 @@
 
 
     </dependencies>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>local-nexus-snapshot</id>
+            <url>http://192.168.1.7:32000/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <build>
         <plugins>
+
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.13</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <serverId>local-nexus-snapshot</serverId>
+                    <nexusUrl>http://localhost:320000/nexus/</nexusUrl>
+                    <skipStaging>true</skipStaging>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
