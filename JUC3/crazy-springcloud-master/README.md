@@ -18,7 +18,7 @@ https://gitee.com/crazymaker/crazy-springcloud/invite_link?invite=975433315f0804
 Crazy-SpringCloud 微服务脚手架，是为  Java 微服务开发 入门者 准备的 学习和开发脚手架。并配有一系列的使用教程和视频，大致如下：
 
 **高并发 环境搭建** 图文教程和演示视频，陆续上线：
-
+#
 | 中间件                          | 链接地址                                                     |
 | ------------------------------- | ------------------------------------------------------------ |
 | Linux  Redis 安装（带视频）     | [Linux Redis 安装（带视频）](https://www.cnblogs.com/crazymakercircle/p/11985983.html) |

@@ -237,9 +237,9 @@
                         <configuration>
                             <appendAssemblyId>false</appendAssemblyId>
                             <!--具体的配置文件-->
-                            <descriptor>src/main/assembly/assembly.xml</descriptor>
+<!--                            <descriptor>src/main/assembly/assembly.xml</descriptor>-->
                             <!--具体的配置文件-->
-                            <!--                            <descriptors>${project.basedir}/src/main/resources/assembly/package.xml</descriptors>-->
+                            <descriptors>${project.basedir}/src/main/assembly/assembly.xml</descriptors>
                         </configuration>
                         <id>make-assembly</id>
                         <!--绑定到maven操作类型上-->

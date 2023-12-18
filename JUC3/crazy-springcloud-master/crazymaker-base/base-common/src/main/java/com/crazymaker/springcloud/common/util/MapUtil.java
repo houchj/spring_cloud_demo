@@ -1,6 +1,7 @@
 package com.crazymaker.springcloud.common.util;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.*;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -21,7 +22,8 @@ public class MapUtil
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields)
         {
-            PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
+//            PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
+            PropertyDescriptor pd = org.springframework.beans.BeanUtils.getPropertyDescriptor(clazz, field.getName());
             Method getMethod = pd.getReadMethod();
             Object o = getMethod.invoke(obj);
             map.put(field.getName(), o);
@@ -40,8 +42,10 @@ public class MapUtil
         T obj = null;
         try
         {
+            //TODO: fix it
             obj = beanClass.newInstance();
-            BeanUtils.populate(obj, map);
+            org.apache.commons.beanutils.BeanUtils.populate(obj, map);
+//            BeanUtils.copyProperties(obj, map);
         } catch (Exception e)
         {
             e.printStackTrace();
