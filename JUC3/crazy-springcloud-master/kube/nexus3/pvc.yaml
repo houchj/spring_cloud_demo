@@ -7,6 +7,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: microk8s-hostpath
+  persistentVolumeReclaimPolicy: Retain
   resources:
     requests:
       storage: 30Gi

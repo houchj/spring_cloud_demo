@@ -31,6 +31,5 @@ spec:
               mountPath: /nexus-data
       volumes:
         - name: nexus-data
-          persistentVolumeReclaimPolicy: Retain
           persistentVolumeClaim:
             claimName: nexus-data
