@@ -1,0 +1,30 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nexus
+spec:
+  capacity:
+    storage: 30Gi
+  hostPath:
+    path: >-
+      /var/snap/microk8s/common/default-storage/devops-tools-nexus-data-pvc-fc2ed3f0-6fca-4d91-b431-6ec38e0b3af8
+    type: DirectoryOrCreate
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    kind: PersistentVolumeClaim
+    namespace: devops-tools
+    name: nexus-data
+    apiVersion: v1
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: microk8s-hostpath
+  volumeMode: Filesystem
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - nickg3
+
