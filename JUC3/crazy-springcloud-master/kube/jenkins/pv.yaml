@@ -1,0 +1,29 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-jenkins
+spec:
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: >-
+      /var/snap/microk8s/common/default-storage/devops-tools-jenkins-data-pvc-430ec6c5-45d4-4b9c-a957-8d6b4b4e5ea4
+    type: DirectoryOrCreate
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    kind: PersistentVolumeClaim
+    namespace: devops-tools
+    name: jenkins-data
+    apiVersion: v1
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: microk8s-hostpath
+  volumeMode: Filesystem
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - nickg3
