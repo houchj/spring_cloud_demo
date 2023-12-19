@@ -16,6 +16,7 @@ spec:
       containers:
         - name: nexus
           image: sonatype/nexus3:latest
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: "2Gi"
@@ -30,5 +31,6 @@ spec:
               mountPath: /nexus-data
       volumes:
         - name: nexus-data
+          persistentVolumeReclaimPolicy: Retain
           persistentVolumeClaim:
             claimName: nexus-data

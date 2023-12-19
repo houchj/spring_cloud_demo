@@ -15,6 +15,14 @@ spec:
       containers:
         - name: jenkins
           image: jenkins/jenkins:lts
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
           ports:
             - name: http-port
               containerPort: 8080
@@ -25,5 +33,6 @@ spec:
               mountPath: /var/jenkins_vol
       volumes:
         - name: jenkins-data
+          persistentVolumeReclaimPolicy: Retain
           persistentVolumeClaim:
             claimName: jenkins-data
