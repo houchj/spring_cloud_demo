@@ -15,7 +15,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: postgres
-          image: postgres:14.5
+          image: postgres:16.1
           imagePullPolicy: "IfNotPresent"
           envFrom:
             - configMapRef:
