@@ -42,11 +42,3 @@ spec:
      - name: pgadmin-config
        configMap:
          name: pgadmin-config
- volumeClaimTemplates:
- - metadata:
-     name: pgadmin-data
-   spec:
-     accessModes: [ "ReadWriteOnce" ]
-     resources:
-       requests:
-         storage: 3Gi
