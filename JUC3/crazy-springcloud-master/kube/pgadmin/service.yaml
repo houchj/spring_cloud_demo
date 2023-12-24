@@ -3,10 +3,9 @@ kind: Service
 metadata:
   name: pgadmin-service
 spec:
-  ports:
-  - protocol: TCP
-      port: 54321
-    targetPort: http
-  selector:
-    app: pgadmin
   type: NodePort
+  ports:
+    - port: 15432
+      targetPort: 15432
+      nodePort: 15432
+
