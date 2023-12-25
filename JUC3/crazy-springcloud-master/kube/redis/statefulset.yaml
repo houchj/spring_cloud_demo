@@ -52,7 +52,7 @@ spec:
         - containerPort: 6379
           name: redis
         volumeMounts:
-        - name: data
+        - name: redis-data
           mountPath: /data
         - name: redis-config
           mountPath: /etc/redis/
@@ -64,7 +64,7 @@ spec:
           name: redis-config
   volumeClaimTemplates:
   - metadata:
-      name: data
+      name: redis-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: "microk8s-hostpath"
