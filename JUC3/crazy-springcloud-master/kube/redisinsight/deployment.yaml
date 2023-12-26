@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redisinsight
+  labels:
+    app: redisinsight
+spec:
+  replicas: 1 #a single replica pod
+  selector:
+    matchLabels:
+      app: redisinsight
+  template: #pod template
+    metadata:
+      labels:
+        app: redisinsight #label for pod/s
+    spec:
+      containers:
+      - name:  redisinsight #Container name (DNS_LABEL, unique)
+        image: redislabs/redisinsight:1.14.0 #repo/image
+        imagePullPolicy: IfNotPresent #do not always pull image
+        volumeMounts:
+        - name: redisinsight-data #Pod volumes to mount into the container's filesystem. Cannot be updated.
+          mountPath: /db
+        ports:
+        - containerPort: 8001 #exposed container port and protocol
+          protocol: TCP
+      volumes:
+      - name: redisinsight-data
+        persistentVolumeClaim:
+          claimName: redisinsight-pvc
+#        emptyDir: {} # node-ephemeral volume https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
+
+
