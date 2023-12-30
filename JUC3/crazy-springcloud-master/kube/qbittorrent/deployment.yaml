@@ -12,10 +12,29 @@ spec:
       labels:
         app: qbittorrent
     spec:
+      initContainers:
+        - name: init
+          image: lscr.io/linuxserver/qbittorrent:4.6.2
+          imagePullPolicy: IfNotPresent
+          envFrom:
+          - configMapRef:
+              name: qbittorrent-config
+          command: ["/bin/sh"]
+          args: ["-c", "echo WebUI\\HostHeaderValidation=false >> /config/qBittorrent/qBittorrent.conf"]
+          volumeMounts:
+            - name: qbittorrent-config
+              mountPath: /config
+      volumes:
+        - name: qbittorrent-config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config-pvc
       containers:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:4.6.2
           imagePullPolicy: IfNotPresent
+          envFrom:
+          - configMapRef:
+              name: qbittorrent-config
           ports:
             - name: web-ui-port
               containerPort: 8080

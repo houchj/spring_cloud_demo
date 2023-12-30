@@ -7,16 +7,20 @@ metadata:
 spec:
   selector:
     app: qbittorrent
+  type: NodePort
   ports:
-    - port: 8080
+    - name: web-ui
+      port: 8080
       targetPort: 8080
       nodePort: 30003
       protocol: TCP
-    - port: 6881
+    - name: tcp-connection
+      port: 6881
       targetPort: 6881
       nodePort: 30004
       protocol: TCP
-    - port: 6881
+    - name: udp-connection
+      port: 6881
       targetPort: 6881
       nodePort: 30004
       protocol: UDP
