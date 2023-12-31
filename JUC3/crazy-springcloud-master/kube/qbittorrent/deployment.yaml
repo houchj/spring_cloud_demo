@@ -19,8 +19,12 @@ spec:
           envFrom:
           - configMapRef:
               name: qbittorrent-config
-          command: ["/bin/sh"]
-          args: ["-c", "echo WebUI\\HostHeaderValidation=false >> /config/qBittorrent/qBittorrent.conf"]
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "WebUI\HostHeaderValidation=false" >> /config/qBittorrent/qBittorrent.conf
+              echo "WebUI\Password_PBKDF2=Initial0" >> /config/qBittorrent/qBittorrent.conf
+              echo "WebUI\Password=Initial0" >> /config/qBittorrent/qBittorrent.conf
           volumeMounts:
             - name: qbittorrent-config
               mountPath: /config
@@ -32,6 +36,13 @@ spec:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:4.6.2
           imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "100m"
+            requests:
+              memory: "500Mi"
+              cpu: "50m"
           envFrom:
           - configMapRef:
               name: qbittorrent-config
