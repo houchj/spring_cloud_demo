@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+ name: phpmyadmin
+spec:
+ serviceName: phpmyadmin-service
+ podManagementPolicy: Parallel
+ replicas: 1
+ updateStrategy:
+   type: RollingUpdate
+ selector:
+   matchLabels:
+     app: phpmyadmin
+ template:
+   metadata:
+     labels:
+       app: phpmyadmin
+   spec:
+     terminationGracePeriodSeconds: 10
+     containers:
+       - name: phpmyadmin
+         image: phpmyadmin:5.2.1
+         imagePullPolicy: IfNotPresent
+         ports:
+           - containerPort: 80
+         env:
+         - name: PMA_ARBITRARY
+           value: "1"
+         - name: PMA_HOST
+           value: 45.113.121.145
+         - name: PMA_PORT
+           value: "3306"
+         volumeMounts:
+         - name: phpmyadmin-data
+           mountPath: /var/lib/mysql
+     volumes:
+     - name: phpmyadmin-data
+       persistentVolumeClaim:
+         claimName: phpmyadmin-data
+
