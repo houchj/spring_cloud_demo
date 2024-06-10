@@ -48,11 +48,11 @@ spec:
         image: redis:7.2.3-alpine
         resources:
           limits:
-            cpu: "2"
-            memory: "5Gi"
+            cpu: "1"
+            memory: "6Gi"
           requests:
-            cpu: "0.5"
-            memory: "3Gi"
+            cpu: "1"
+            memory: "6Gi"
         command: ["redis-server"]
         args: ["/etc/redis/redis.conf"]
         ports:
@@ -77,5 +77,5 @@ spec:
       storageClassName: "microk8s-hostpath"
       resources:
         requests:
-          storage: 3Gi
+          storage: 10Gi
 
