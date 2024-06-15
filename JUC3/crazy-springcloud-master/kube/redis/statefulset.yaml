@@ -16,6 +16,13 @@ spec:
       initContainers:
       - name: config
         image: redis:7.2.3-alpine
+        resources:
+          limits:
+            cpu: "1"
+            memory: "7Gi"
+          requests:
+            cpu: "1"
+            memory: "7Gi"
         command: [ "sh", "-c" ]
         args:
           - |
@@ -49,10 +56,10 @@ spec:
         resources:
           limits:
             cpu: "1"
-            memory: "6Gi"
+            memory: "7Gi"
           requests:
             cpu: "1"
-            memory: "6Gi"
+            memory: "7Gi"
         command: ["redis-server"]
         args: ["/etc/redis/redis.conf"]
         ports:
